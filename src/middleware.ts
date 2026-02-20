@@ -7,11 +7,19 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const { pathname } = req.nextUrl;
 
-  if (pathname === "/" || pathname.startsWith("/api/auth/")) return NextResponse.next();
+  if (pathname.startsWith("/api/auth/")) return NextResponse.next();
+
+  if (pathname === "/" && req.auth?.user?.approved) {
+    return NextResponse.redirect(new URL("/jobs", req.url));
+  }
+
+  if (pathname === "/") return NextResponse.next();
 
   if (!req.auth && pathname === "/profile" || !req.auth && pathname==="/jobs") {
     return NextResponse.redirect(new URL("/api/auth/signin", req.url));
   }
+
+
 
   if (!req.auth?.user?.approved) {
     return NextResponse.redirect(new URL("/", req.url));

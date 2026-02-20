@@ -36,7 +36,7 @@ export default function LandingPage() {
           Get started &rarr;
         </a>
 
-        <div className="mock-card">
+        {/* <div className="mock-card">
           <div className="mock-card-inner">
             <div className="flex items-start justify-between gap-4">
               <div className="text-left">
@@ -51,7 +51,7 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
 
       </main>
     </div>

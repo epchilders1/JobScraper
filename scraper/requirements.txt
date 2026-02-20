@@ -1,0 +1,8 @@
+flask
+gunicorn
+pdfplumber
+python-dotenv
+requests
+prisma
+openai
+numpy
