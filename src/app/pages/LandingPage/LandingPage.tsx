@@ -1,3 +1,4 @@
+import Link from 'next/dist/client/link'
 import './LandingPage.css'
 
 export default function LandingPage() {
@@ -15,26 +16,25 @@ export default function LandingPage() {
             JobScraper
           </span>
         </div>
-        <a href="/api/auth/signin" className="btn-primary">
+        <Link href="/api/auth/signin" className="btn-primary">
           Sign in with Google
-        </a>
+        </Link>
       </nav>
 
       <main className="relative z-10 flex h-[calc(100vh-72px)] flex-col items-center justify-center px-6 text-center">
         <h1 className="headline mb-5">
           Stop applying to{' '}
           <br />
-          <span className="glow-text-primary">jobs you won't get.</span>
+          <span className="glow-text-primary">{"jobs you won't get."}</span>
         </h1>
 
         <p className="mb-10 max-w-md text-base leading-relaxed text-text-secondary">
-          Drop in your resume. We scrape the web, score every listing against your experience,
-          and show you what's actually worth applying to.
+         {" Drop in your resume. We scrape the web, score every listing against your experience, and show you what's actually worth applying to."}
         </p>
 
-        <a href="/api/auth/signin" className="btn-hero mb-16">
+        <Link href="/api/auth/signin" className="btn-hero mb-16">
           Get started &rarr;
-        </a>
+        </Link>
 
         {/* <div className="mock-card">
           <div className="mock-card-inner">

@@ -93,7 +93,7 @@ export default function ProfilePage(props: ProfilePageProps) {
         <div className="pp-content">
 
           <div className="pp-section">
-            <h2 className="pp-section__title">What I'm looking for</h2>
+            <h2 className="pp-section__title">{"What I'm looking for"}</h2>
             <div className="pp-field">
               <InputTags
                 label="Target titles"

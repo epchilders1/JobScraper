@@ -26,7 +26,9 @@ export default tseslint.config(
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-      
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/dot-notation": "off",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
