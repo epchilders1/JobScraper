@@ -37,11 +37,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.19.2
- * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
+ * Query Engine version: 393aa359c9ad4a4bb28630fb5613f9c281cde053
  */
 Prisma.prismaVersion = {
   client: "6.19.2",
-  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
+  engine: "393aa359c9ad4a4bb28630fb5613f9c281cde053"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -93,12 +93,30 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
+exports.Prisma.ResumeScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
+  userId: 'userId',
+  rawText: 'rawText',
+  fileName: 'fileName',
+  embedding: 'embedding',
+  skills: 'skills',
   updatedAt: 'updatedAt',
-  createdById: 'createdById'
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserPreferencesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  preferredCities: 'preferredCities',
+  remoteOnly: 'remoteOnly',
+  workStyle: 'workStyle',
+  targetTitles: 'targetTitles',
+  experienceLevel: 'experienceLevel',
+  jobTypes: 'jobTypes',
+  minSalary: 'minSalary',
+  minMatchScore: 'minMatchScore',
+  requiredKeywords: 'requiredKeywords',
+  excludedKeywords: 'excludedKeywords'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -129,13 +147,52 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
-  image: 'image'
+  approved: 'approved',
+  resumeId: 'resumeId'
 };
 
-exports.Prisma.VerificationTokenScalarFieldEnum = {
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
+exports.Prisma.ApplicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  jobId: 'jobId',
+  status: 'status',
+  appliedAt: 'appliedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JobScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  title: 'title',
+  company: 'company',
+  location: 'location',
+  description: 'description',
+  salary: 'salary',
+  salaryMin: 'salaryMin',
+  salaryMax: 'salaryMax',
+  jobType: 'jobType',
+  remoteFlag: 'remoteFlag',
+  applyUrl: 'applyUrl',
+  postedAt: 'postedAt',
+  embedding: 'embedding',
+  normalizedTitle: 'normalizedTitle',
+  extractedSkills: 'extractedSkills',
+  source: 'source',
+  scrapedAt: 'scrapedAt',
+  expiresAt: 'expiresAt'
+};
+
+exports.Prisma.JobMatchScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  resumeId: 'resumeId',
+  matchScore: 'matchScore',
+  skillsMatched: 'skillsMatched',
+  skillsGap: 'skillsGap',
+  star: 'star',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -155,11 +212,14 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Post: 'Post',
+  Resume: 'Resume',
+  UserPreferences: 'UserPreferences',
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  Application: 'Application',
+  Job: 'Job',
+  JobMatch: 'JobMatch'
 };
 /**
  * Create the Client
@@ -195,11 +255,12 @@ const config = {
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.19.2",
-  "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
+  "engineVersion": "393aa359c9ad4a4bb28630fb5613f9c281cde053",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -208,13 +269,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below\n  // Further reading:\n  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema\n  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Post {\n  id        Int      @id @default(autoincrement())\n  name      String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  createdBy   User   @relation(fields: [createdById], references: [id])\n  createdById String\n\n  @@index([name])\n}\n\n// Necessary for Next auth\nmodel Account {\n  id                       String  @id @default(cuid())\n  userId                   String\n  type                     String\n  provider                 String\n  providerAccountId        String\n  refresh_token            String? // @db.Text\n  access_token             String? // @db.Text\n  expires_at               Int?\n  token_type               String?\n  scope                    String?\n  id_token                 String? // @db.Text\n  session_state            String?\n  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  refresh_token_expires_in Int?\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String?\n  email         String?   @unique\n  emailVerified DateTime?\n  image         String?\n  accounts      Account[]\n  sessions      Session[]\n  posts         Post[]\n}\n\nmodel VerificationToken {\n  identifier String\n  token      String   @unique\n  expires    DateTime\n\n  @@unique([identifier, token])\n}\n",
-  "inlineSchemaHash": "dd9a6edd7dcf3768e8fd246695361ce51823871115a517c30ff53e4d5bffa20b",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ngenerator py {\n  provider             = \"prisma-client-py\"\n  output               = \"../scraper/generated/prisma\"\n  interface            = \"asyncio\"\n  recursive_type_depth = 5\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below\n  // Further reading:\n  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema\n  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Resume {\n  id         String     @id @default(cuid())\n  userId     String     @unique\n  user       User       @relation(fields: [userId], references: [id])\n  rawText    String\n  fileName   String\n  embedding  Float[]\n  skills     String[]\n  updatedAt  DateTime   @updatedAt\n  createdAt  DateTime   @default(now())\n  jobMatches JobMatch[]\n}\n\nmodel UserPreferences {\n  id     String @id @default(cuid())\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id])\n\n  preferredCities String[]\n  remoteOnly      Boolean  @default(false)\n  workStyle       String? // \"remote\", \"hybrid\", \"onsite\", \"any\"\n\n  // Role preferences  \n  targetTitles    String[] // [\"Software Engineer\", \"ML Engineer\"]\n  experienceLevel String[] // [\"entry\", \"mid\"]\n  jobTypes        String[] // [\"full-time\", \"internship\"]\n\n  // Compensation\n  minSalary Int?\n\n  // Match tuning\n  minMatchScore Float? // filter out jobs below X% match\n\n  // Keywords\n  requiredKeywords String[] // must appear in job description\n  excludedKeywords String[] // e.g. \"10+ years\", \"clearance required\"\n}\n\nmodel Account {\n  id                       String  @id @default(cuid())\n  userId                   String\n  type                     String\n  provider                 String\n  providerAccountId        String\n  refresh_token            String? // @db.Text\n  access_token             String? // @db.Text\n  expires_at               Int?\n  token_type               String?\n  scope                    String?\n  id_token                 String? // @db.Text\n  session_state            String?\n  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  refresh_token_expires_in Int?\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel User {\n  id            String           @id @default(cuid())\n  name          String?\n  email         String?          @unique\n  emailVerified DateTime?\n  approved      Boolean          @default(false)\n  accounts      Account[]\n  sessions      Session[]\n  resumeId      String?\n  resume        Resume?\n  preferences   UserPreferences?\n  applications  Application[]\n}\n\nmodel Application {\n  id     String @id @default(cuid())\n  userId String\n  user   User   @relation(fields: [userId], references: [id])\n  jobId  String\n  job    Job    @relation(fields: [jobId], references: [id])\n\n  status    String? // \"saved\", \"applied\", \"phone_screen\", \n  // \"interview\", \"offer\", \"rejected\"\n  appliedAt DateTime?\n  notes     String?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Job {\n  id String @id @default(cuid())\n\n  // Core fields from Adzuna\n  externalId  String    @unique // Adzuna's ID, prevents duplicates\n  title       String\n  company     String\n  location    String\n  description String\n  salary      String?\n  salaryMin   Int?\n  salaryMax   Int?\n  jobType     String?\n  remoteFlag  Boolean?\n  applyUrl    String\n  postedAt    DateTime?\n\n  // Your pipeline additions\n  embedding       Float[]\n  normalizedTitle String? // your title normalization layer\n  extractedSkills String[] // skills parsed from description\n\n  // Meta\n  source    String // \"adzuna\", \"indeed\", etc.\n  scrapedAt DateTime  @default(now())\n  expiresAt DateTime? // flag stale listings\n\n  // Relations\n  matches      JobMatch[]\n  applications Application[]\n}\n\nmodel JobMatch {\n  id       String @id @default(cuid())\n  jobId    String\n  job      Job    @relation(fields: [jobId], references: [id])\n  resumeId String\n  resume   Resume @relation(fields: [resumeId], references: [id])\n\n  matchScore    Float // overall cosine similarity\n  skillsMatched String[] // skills in both resume and job\n  skillsGap     String[] // required skills missing from resume\n\n  star Boolean @default(false)\n\n  createdAt DateTime @default(now())\n\n  @@unique([jobId, resumeId]) // one score per job/resume pair\n}\n",
+  "inlineSchemaHash": "b6a6f7f0fa7fd1705f14421e7a5d2e7a89f475059ec98f121202d3047c9e8ec1",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostToUser\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"refresh_token_expires_in\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"PostToUser\"}],\"dbName\":null},\"VerificationToken\":{\"fields\":[{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Resume\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ResumeToUser\"},{\"name\":\"rawText\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"embedding\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"skills\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"jobMatches\",\"kind\":\"object\",\"type\":\"JobMatch\",\"relationName\":\"JobMatchToResume\"}],\"dbName\":null},\"UserPreferences\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserPreferences\"},{\"name\":\"preferredCities\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"remoteOnly\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"workStyle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"targetTitles\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"experienceLevel\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jobTypes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"minSalary\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"minMatchScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"requiredKeywords\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"excludedKeywords\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"refresh_token_expires_in\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"approved\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"resumeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resume\",\"kind\":\"object\",\"type\":\"Resume\",\"relationName\":\"ResumeToUser\"},{\"name\":\"preferences\",\"kind\":\"object\",\"type\":\"UserPreferences\",\"relationName\":\"UserToUserPreferences\"},{\"name\":\"applications\",\"kind\":\"object\",\"type\":\"Application\",\"relationName\":\"ApplicationToUser\"}],\"dbName\":null},\"Application\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ApplicationToUser\"},{\"name\":\"jobId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"job\",\"kind\":\"object\",\"type\":\"Job\",\"relationName\":\"ApplicationToJob\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"appliedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Job\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"externalId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"company\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"salary\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"salaryMin\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"salaryMax\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"jobType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"remoteFlag\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"applyUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"embedding\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"normalizedTitle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"extractedSkills\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"source\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scrapedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"matches\",\"kind\":\"object\",\"type\":\"JobMatch\",\"relationName\":\"JobToJobMatch\"},{\"name\":\"applications\",\"kind\":\"object\",\"type\":\"Application\",\"relationName\":\"ApplicationToJob\"}],\"dbName\":null},\"JobMatch\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"jobId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"job\",\"kind\":\"object\",\"type\":\"Job\",\"relationName\":\"JobToJobMatch\"},{\"name\":\"resumeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resume\",\"kind\":\"object\",\"type\":\"Resume\",\"relationName\":\"JobMatchToResume\"},{\"name\":\"matchScore\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"skillsMatched\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skillsGap\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"star\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -22,11 +22,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.19.2
- * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
+ * Query Engine version: 393aa359c9ad4a4bb28630fb5613f9c281cde053
  */
 Prisma.prismaVersion = {
   client: "6.19.2",
-  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
+  engine: "393aa359c9ad4a4bb28630fb5613f9c281cde053"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -121,12 +121,30 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
+exports.Prisma.ResumeScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
+  userId: 'userId',
+  rawText: 'rawText',
+  fileName: 'fileName',
+  embedding: 'embedding',
+  skills: 'skills',
   updatedAt: 'updatedAt',
-  createdById: 'createdById'
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserPreferencesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  preferredCities: 'preferredCities',
+  remoteOnly: 'remoteOnly',
+  workStyle: 'workStyle',
+  targetTitles: 'targetTitles',
+  experienceLevel: 'experienceLevel',
+  jobTypes: 'jobTypes',
+  minSalary: 'minSalary',
+  minMatchScore: 'minMatchScore',
+  requiredKeywords: 'requiredKeywords',
+  excludedKeywords: 'excludedKeywords'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
@@ -157,13 +175,52 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
-  image: 'image'
+  approved: 'approved',
+  resumeId: 'resumeId'
 };
 
-exports.Prisma.VerificationTokenScalarFieldEnum = {
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
+exports.Prisma.ApplicationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  jobId: 'jobId',
+  status: 'status',
+  appliedAt: 'appliedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JobScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  title: 'title',
+  company: 'company',
+  location: 'location',
+  description: 'description',
+  salary: 'salary',
+  salaryMin: 'salaryMin',
+  salaryMax: 'salaryMax',
+  jobType: 'jobType',
+  remoteFlag: 'remoteFlag',
+  applyUrl: 'applyUrl',
+  postedAt: 'postedAt',
+  embedding: 'embedding',
+  normalizedTitle: 'normalizedTitle',
+  extractedSkills: 'extractedSkills',
+  source: 'source',
+  scrapedAt: 'scrapedAt',
+  expiresAt: 'expiresAt'
+};
+
+exports.Prisma.JobMatchScalarFieldEnum = {
+  id: 'id',
+  jobId: 'jobId',
+  resumeId: 'resumeId',
+  matchScore: 'matchScore',
+  skillsMatched: 'skillsMatched',
+  skillsGap: 'skillsGap',
+  star: 'star',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -183,11 +240,14 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Post: 'Post',
+  Resume: 'Resume',
+  UserPreferences: 'UserPreferences',
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  Application: 'Application',
+  Job: 'Job',
+  JobMatch: 'JobMatch'
 };
 
 /**

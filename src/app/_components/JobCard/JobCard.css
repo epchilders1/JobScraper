@@ -1,0 +1,103 @@
+
+.mock-card {
+  position: relative;
+  width: 100%;
+}
+
+.mock-card-inner {
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid #2A2A3A;
+  background: #111118;
+  box-shadow:
+    0 0 0 1px #6C63FF22,
+    0 0 32px #6C63FF22,
+    0 24px 48px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+}
+
+.mock-card-label {
+  margin-top: 8px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #55556A;
+  text-align: center;
+}
+
+.match-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #00C48C18;
+  border: 1px solid #00C48C44;
+  color: #00C48C;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 0 12px #00C48C33;
+}
+
+.skill-chip {
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #6C63FF15;
+  border: 1px solid #6C63FF33;
+  color: #8B85FF;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.card-desc-wrap {
+  margin-top: 12px;
+}
+
+.card-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #9999BB;
+  white-space: pre-wrap;
+}
+
+.card-desc--collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-expand-btn {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11px;
+  color: #6C63FF;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.card-expand-btn:hover {
+  color: #8B85FF;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 4px;
+  color: #55556A;
+  transition: color 0.15s, transform 0.1s;
+}
+
+.star-btn:hover {
+  color: #FFB547;
+  transform: scale(1.2);
+}
+
+.star-btn--active {
+  color: #FFB547;
+  filter: drop-shadow(0 0 6px #FFB54780);
+}

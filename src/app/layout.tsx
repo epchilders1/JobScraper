@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import Navbar from "./_components/Navbar/Navbar";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -22,7 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+            <Navbar>
+              {children}
+            </Navbar>
+          </TRPCReactProvider>
       </body>
     </html>
   );

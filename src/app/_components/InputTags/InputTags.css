@@ -1,0 +1,86 @@
+.input-tags {
+  width: 100%;
+  min-width: 0;
+}
+
+.input-tags__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.input-tags__field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 46px;
+  padding: 8px 12px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-bg-border);
+  border-radius: 10px;
+  cursor: text;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-tags__field:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.input-tags__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px 4px 10px;
+  background: rgba(108, 99, 255, 0.12);
+  border: 1px solid rgba(108, 99, 255, 0.25);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--color-primary-hover);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.input-tags__chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--color-primary-hover);
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.input-tags__chip-remove:hover {
+  opacity: 1;
+}
+
+.input-tags__input {
+  flex: 1;
+  min-width: 100px;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  font-family: inherit;
+}
+
+.input-tags__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input-tags__hint {
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
