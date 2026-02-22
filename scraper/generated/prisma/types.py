@@ -7088,6 +7088,7 @@ class UserOptionalCreateInput(TypedDict, total=False):
     id: _str
     name: Optional[_str]
     email: Optional[_str]
+    image: Optional[_str]
     emailVerified: Optional[datetime.datetime]
     approved: _bool
     accounts: 'AccountCreateManyNestedWithoutRelationsInput'
@@ -7110,6 +7111,7 @@ class UserOptionalCreateWithoutRelationsInput(TypedDict, total=False):
     id: _str
     name: Optional[_str]
     email: Optional[_str]
+    image: Optional[_str]
     emailVerified: Optional[datetime.datetime]
     approved: _bool
     resumeId: Optional[_str]
@@ -7160,6 +7162,7 @@ class UserUpdateInput(TypedDict, total=False):
     id: _str
     name: Optional[_str]
     email: Optional[_str]
+    image: Optional[_str]
     emailVerified: Optional[datetime.datetime]
     approved: _bool
     accounts: 'AccountUpdateManyWithoutRelationsInput'
@@ -7175,6 +7178,7 @@ class UserUpdateManyMutationInput(TypedDict, total=False):
     id: _str
     name: Optional[_str]
     email: Optional[_str]
+    image: Optional[_str]
     emailVerified: Optional[datetime.datetime]
     approved: _bool
     resumeId: Optional[_str]
@@ -7236,6 +7240,14 @@ _User_email_OrderByInput = TypedDict(
     total=True
 )
 
+_User_image_OrderByInput = TypedDict(
+    '_User_image_OrderByInput',
+    {
+        'image': 'SortOrder',
+    },
+    total=True
+)
+
 _User_emailVerified_OrderByInput = TypedDict(
     '_User_emailVerified_OrderByInput',
     {
@@ -7282,6 +7294,7 @@ UserOrderByInput = Union[
     '_User_id_OrderByInput',
     '_User_name_OrderByInput',
     '_User_email_OrderByInput',
+    '_User_image_OrderByInput',
     '_User_emailVerified_OrderByInput',
     '_User_approved_OrderByInput',
     '_User_resumeId_OrderByInput',
@@ -8208,6 +8221,7 @@ class UserWhereInput(TypedDict, total=False):
     id: Union[_str, 'types.StringFilter']
     name: Union[None, _str, 'types.StringFilter']
     email: Union[None, _str, 'types.StringFilter']
+    image: Union[None, _str, 'types.StringFilter']
     emailVerified: Union[None, datetime.datetime, 'types.DateTimeFilter']
     approved: Union[_bool, 'types.BooleanFilter']
     accounts: 'AccountListRelationFilter'
@@ -8229,6 +8243,7 @@ class UserWhereInputRecursive1(TypedDict, total=False):
     id: Union[_str, 'types.StringFilter']
     name: Union[None, _str, 'types.StringFilter']
     email: Union[None, _str, 'types.StringFilter']
+    image: Union[None, _str, 'types.StringFilter']
     emailVerified: Union[None, datetime.datetime, 'types.DateTimeFilter']
     approved: Union[_bool, 'types.BooleanFilter']
     accounts: 'AccountListRelationFilter'
@@ -8250,6 +8265,7 @@ class UserWhereInputRecursive2(TypedDict, total=False):
     id: Union[_str, 'types.StringFilter']
     name: Union[None, _str, 'types.StringFilter']
     email: Union[None, _str, 'types.StringFilter']
+    image: Union[None, _str, 'types.StringFilter']
     emailVerified: Union[None, datetime.datetime, 'types.DateTimeFilter']
     approved: Union[_bool, 'types.BooleanFilter']
     accounts: 'AccountListRelationFilter'
@@ -8271,6 +8287,7 @@ class UserWhereInputRecursive3(TypedDict, total=False):
     id: Union[_str, 'types.StringFilter']
     name: Union[None, _str, 'types.StringFilter']
     email: Union[None, _str, 'types.StringFilter']
+    image: Union[None, _str, 'types.StringFilter']
     emailVerified: Union[None, datetime.datetime, 'types.DateTimeFilter']
     approved: Union[_bool, 'types.BooleanFilter']
     accounts: 'AccountListRelationFilter'
@@ -8292,6 +8309,7 @@ class UserWhereInputRecursive4(TypedDict, total=False):
     id: Union[_str, 'types.StringFilter']
     name: Union[None, _str, 'types.StringFilter']
     email: Union[None, _str, 'types.StringFilter']
+    image: Union[None, _str, 'types.StringFilter']
     emailVerified: Union[None, datetime.datetime, 'types.DateTimeFilter']
     approved: Union[_bool, 'types.BooleanFilter']
     accounts: 'AccountListRelationFilter'
@@ -8313,6 +8331,7 @@ class UserScalarWhereWithAggregatesInput(TypedDict, total=False):
     id: Union[_str, 'types.StringWithAggregatesFilter']
     name: Union[_str, 'types.StringWithAggregatesFilter']
     email: Union[_str, 'types.StringWithAggregatesFilter']
+    image: Union[_str, 'types.StringWithAggregatesFilter']
     emailVerified: Union[datetime.datetime, 'types.DateTimeWithAggregatesFilter']
     approved: Union[_bool, 'types.BooleanWithAggregatesFilter']
     resumeId: Union[_str, 'types.StringWithAggregatesFilter']
@@ -8327,6 +8346,7 @@ class UserScalarWhereWithAggregatesInputRecursive1(TypedDict, total=False):
     id: Union[_str, 'types.StringWithAggregatesFilter']
     name: Union[_str, 'types.StringWithAggregatesFilter']
     email: Union[_str, 'types.StringWithAggregatesFilter']
+    image: Union[_str, 'types.StringWithAggregatesFilter']
     emailVerified: Union[datetime.datetime, 'types.DateTimeWithAggregatesFilter']
     approved: Union[_bool, 'types.BooleanWithAggregatesFilter']
     resumeId: Union[_str, 'types.StringWithAggregatesFilter']
@@ -8341,6 +8361,7 @@ class UserScalarWhereWithAggregatesInputRecursive2(TypedDict, total=False):
     id: Union[_str, 'types.StringWithAggregatesFilter']
     name: Union[_str, 'types.StringWithAggregatesFilter']
     email: Union[_str, 'types.StringWithAggregatesFilter']
+    image: Union[_str, 'types.StringWithAggregatesFilter']
     emailVerified: Union[datetime.datetime, 'types.DateTimeWithAggregatesFilter']
     approved: Union[_bool, 'types.BooleanWithAggregatesFilter']
     resumeId: Union[_str, 'types.StringWithAggregatesFilter']
@@ -8355,6 +8376,7 @@ class UserScalarWhereWithAggregatesInputRecursive3(TypedDict, total=False):
     id: Union[_str, 'types.StringWithAggregatesFilter']
     name: Union[_str, 'types.StringWithAggregatesFilter']
     email: Union[_str, 'types.StringWithAggregatesFilter']
+    image: Union[_str, 'types.StringWithAggregatesFilter']
     emailVerified: Union[datetime.datetime, 'types.DateTimeWithAggregatesFilter']
     approved: Union[_bool, 'types.BooleanWithAggregatesFilter']
     resumeId: Union[_str, 'types.StringWithAggregatesFilter']
@@ -8369,6 +8391,7 @@ class UserScalarWhereWithAggregatesInputRecursive4(TypedDict, total=False):
     id: Union[_str, 'types.StringWithAggregatesFilter']
     name: Union[_str, 'types.StringWithAggregatesFilter']
     email: Union[_str, 'types.StringWithAggregatesFilter']
+    image: Union[_str, 'types.StringWithAggregatesFilter']
     emailVerified: Union[datetime.datetime, 'types.DateTimeWithAggregatesFilter']
     approved: Union[_bool, 'types.BooleanWithAggregatesFilter']
     resumeId: Union[_str, 'types.StringWithAggregatesFilter']
@@ -8379,6 +8402,7 @@ class UserGroupByOutput(TypedDict, total=False):
     id: _str
     name: _str
     email: _str
+    image: _str
     emailVerified: datetime.datetime
     approved: _bool
     resumeId: _str
@@ -8402,6 +8426,7 @@ class UserScalarAggregateOutput(TypedDict, total=False):
     id: _str
     name: _str
     email: _str
+    image: _str
     emailVerified: datetime.datetime
     approved: _bool
     resumeId: _str
@@ -8416,6 +8441,7 @@ class UserMaxAggregateInput(TypedDict, total=False):
     id: bool
     name: bool
     email: bool
+    image: bool
     emailVerified: bool
     approved: bool
     resumeId: bool
@@ -8426,6 +8452,7 @@ class UserMinAggregateInput(TypedDict, total=False):
     id: bool
     name: bool
     email: bool
+    image: bool
     emailVerified: bool
     approved: bool
     resumeId: bool
@@ -8445,6 +8472,7 @@ UserCountAggregateInput = TypedDict(
         'id': bool,
         'name': bool,
         'email': bool,
+        'image': bool,
         'emailVerified': bool,
         'approved': bool,
         'resumeId': bool,
@@ -8459,6 +8487,7 @@ UserCountAggregateOutput = TypedDict(
         'id': int,
         'name': int,
         'email': int,
+        'image': int,
         'emailVerified': int,
         'approved': int,
         'resumeId': int,
@@ -8472,6 +8501,7 @@ UserKeys = Literal[
     'id',
     'name',
     'email',
+    'image',
     'emailVerified',
     'approved',
     'accounts',
@@ -8485,6 +8515,7 @@ UserScalarFieldKeys = Literal[
     'id',
     'name',
     'email',
+    'image',
     'emailVerified',
     'approved',
     'resumeId',

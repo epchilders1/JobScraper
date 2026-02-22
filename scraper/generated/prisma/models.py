@@ -638,6 +638,7 @@ class User(bases.BaseUser):
     id: _str
     name: Optional[_str] = None
     email: Optional[_str] = None
+    image: Optional[_str] = None
     emailVerified: Optional[datetime.datetime] = None
     approved: _bool
     accounts: Optional[List['models.Account']] = None
@@ -1615,6 +1616,14 @@ _User_fields: Dict['types.UserKeys', PartialModelField] = OrderedDict(
         }),
         ('email', {
             'name': 'email',
+            'is_list': False,
+            'optional': True,
+            'type': '_str',
+            'is_relational': False,
+            'documentation': None,
+        }),
+        ('image', {
+            'name': 'image',
             'is_list': False,
             'optional': True,
             'type': '_str',

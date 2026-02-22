@@ -4642,11 +4642,11 @@ class UserActions(Generic[_PrismaModelT]):
         Example
         -------
         ```py
-        # find the second User record ordered by the emailVerified field
+        # find the second User record ordered by the image field
         user = await User.prisma().find_first(
             skip=1,
             order={
-                'emailVerified': 'desc',
+                'image': 'desc',
             },
         )
         ```
@@ -4710,11 +4710,11 @@ class UserActions(Generic[_PrismaModelT]):
         Example
         -------
         ```py
-        # find the second User record ordered by the approved field
+        # find the second User record ordered by the emailVerified field
         user = await User.prisma().find_first_or_raise(
             skip=1,
             order={
-                'approved': 'desc',
+                'emailVerified': 'desc',
             },
         )
         ```
@@ -4878,7 +4878,7 @@ class UserActions(Generic[_PrismaModelT]):
         # update all User records
         total = await User.prisma().update_many(
             data={
-                'resumeId': 'ihcahiead'
+                'approved': False
             },
             where={}
         )
@@ -4942,7 +4942,7 @@ class UserActions(Generic[_PrismaModelT]):
         results = await User.prisma().count(
             select={
                 '_all': True,
-                'id': True,
+                'resumeId': True,
             },
         )
         ```
@@ -5009,7 +5009,7 @@ class UserActions(Generic[_PrismaModelT]):
         results = await User.prisma().count(
             select={
                 '_all': True,
-                'name': True,
+                'id': True,
             },
         )
         ```
@@ -5149,10 +5149,10 @@ class UserActions(Generic[_PrismaModelT]):
         Example
         -------
         ```py
-        # group User records by email values
+        # group User records by name values
         # and count how many records are in each group
         results = await User.prisma().group_by(
-            ['email'],
+            ['name'],
             count=True,
         )
         ```

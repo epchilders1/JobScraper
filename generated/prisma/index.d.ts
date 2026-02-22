@@ -310,7 +310,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 6.19.2
-   * Query Engine version: 393aa359c9ad4a4bb28630fb5613f9c281cde053
+   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
     client: string
@@ -774,6 +774,10 @@ export namespace Prisma {
             args: Prisma.ResumeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.ResumeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResumePayload>[]
+          }
           upsert: {
             args: Prisma.ResumeUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$ResumePayload>
@@ -843,6 +847,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.UserPreferencesUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserPreferencesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPreferencesPayload>[]
           }
           upsert: {
             args: Prisma.UserPreferencesUpsertArgs<ExtArgs>
@@ -914,6 +922,10 @@ export namespace Prisma {
             args: Prisma.AccountUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.AccountUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
+          }
           upsert: {
             args: Prisma.AccountUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AccountPayload>
@@ -983,6 +995,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.SessionUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SessionPayload>[]
           }
           upsert: {
             args: Prisma.SessionUpsertArgs<ExtArgs>
@@ -1054,6 +1070,10 @@ export namespace Prisma {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -1123,6 +1143,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.ApplicationUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApplicationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApplicationPayload>[]
           }
           upsert: {
             args: Prisma.ApplicationUpsertArgs<ExtArgs>
@@ -1194,6 +1218,10 @@ export namespace Prisma {
             args: Prisma.JobUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
+          updateManyAndReturn: {
+            args: Prisma.JobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobPayload>[]
+          }
           upsert: {
             args: Prisma.JobUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$JobPayload>
@@ -1263,6 +1291,10 @@ export namespace Prisma {
           updateMany: {
             args: Prisma.JobMatchUpdateManyArgs<ExtArgs>
             result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.JobMatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobMatchPayload>[]
           }
           upsert: {
             args: Prisma.JobMatchUpsertArgs<ExtArgs>
@@ -1816,6 +1848,17 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resume"]>
 
+  export type ResumeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    rawText?: boolean
+    fileName?: boolean
+    embedding?: boolean
+    skills?: boolean
+    updatedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["resume"]>
 
   export type ResumeSelectScalar = {
     id?: boolean
@@ -1835,6 +1878,9 @@ export namespace Prisma {
     _count?: boolean | ResumeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ResumeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ResumeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -2057,6 +2103,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends ResumeUpdateManyArgs>(args: SelectSubset<T, ResumeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Resumes and returns the data updated in the database.
+     * @param {ResumeUpdateManyAndReturnArgs} args - Arguments to update many Resumes.
+     * @example
+     * // Update many Resumes
+     * const resume = await prisma.resume.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Resumes and only return the `id`
+     * const resumeWithIdOnly = await prisma.resume.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResumeUpdateManyAndReturnArgs>(args: SelectSubset<T, ResumeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Resume.
@@ -2549,6 +2625,40 @@ export namespace Prisma {
      * Filter which Resumes to update
      */
     where?: ResumeWhereInput
+    /**
+     * Limit how many Resumes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Resume updateManyAndReturn
+   */
+  export type ResumeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Resume
+     */
+    select?: ResumeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Resume
+     */
+    omit?: ResumeOmit<ExtArgs> | null
+    /**
+     * The data used to update Resumes.
+     */
+    data: XOR<ResumeUpdateManyMutationInput, ResumeUncheckedUpdateManyInput>
+    /**
+     * Filter which Resumes to update
+     */
+    where?: ResumeWhereInput
+    /**
+     * Limit how many Resumes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResumeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -2611,6 +2721,10 @@ export namespace Prisma {
      * Filter which Resumes to delete
      */
     where?: ResumeWhereInput
+    /**
+     * Limit how many Resumes to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -2909,6 +3023,21 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userPreferences"]>
 
+  export type UserPreferencesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    preferredCities?: boolean
+    remoteOnly?: boolean
+    workStyle?: boolean
+    targetTitles?: boolean
+    experienceLevel?: boolean
+    jobTypes?: boolean
+    minSalary?: boolean
+    minMatchScore?: boolean
+    requiredKeywords?: boolean
+    excludedKeywords?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPreferences"]>
 
   export type UserPreferencesSelectScalar = {
     id?: boolean
@@ -2930,6 +3059,9 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type UserPreferencesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserPreferencesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -3155,6 +3287,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends UserPreferencesUpdateManyArgs>(args: SelectSubset<T, UserPreferencesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPreferences and returns the data updated in the database.
+     * @param {UserPreferencesUpdateManyAndReturnArgs} args - Arguments to update many UserPreferences.
+     * @example
+     * // Update many UserPreferences
+     * const userPreferences = await prisma.userPreferences.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserPreferences and only return the `id`
+     * const userPreferencesWithIdOnly = await prisma.userPreferences.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserPreferencesUpdateManyAndReturnArgs>(args: SelectSubset<T, UserPreferencesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one UserPreferences.
@@ -3650,6 +3812,40 @@ export namespace Prisma {
      * Filter which UserPreferences to update
      */
     where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPreferences updateManyAndReturn
+   */
+  export type UserPreferencesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPreferences
+     */
+    select?: UserPreferencesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPreferences
+     */
+    omit?: UserPreferencesOmit<ExtArgs> | null
+    /**
+     * The data used to update UserPreferences.
+     */
+    data: XOR<UserPreferencesUpdateManyMutationInput, UserPreferencesUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPreferences to update
+     */
+    where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPreferencesIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3712,6 +3908,10 @@ export namespace Prisma {
      * Filter which UserPreferences to delete
      */
     where?: UserPreferencesWhereInput
+    /**
+     * Limit how many UserPreferences to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -4019,6 +4219,22 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
+  export type AccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    provider?: boolean
+    providerAccountId?: boolean
+    refresh_token?: boolean
+    access_token?: boolean
+    expires_at?: boolean
+    token_type?: boolean
+    scope?: boolean
+    id_token?: boolean
+    session_state?: boolean
+    refresh_token_expires_in?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["account"]>
 
   export type AccountSelectScalar = {
     id?: boolean
@@ -4041,6 +4257,9 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -4267,6 +4486,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends AccountUpdateManyArgs>(args: SelectSubset<T, AccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accounts and returns the data updated in the database.
+     * @param {AccountUpdateManyAndReturnArgs} args - Arguments to update many Accounts.
+     * @example
+     * // Update many Accounts
+     * const account = await prisma.account.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Accounts and only return the `id`
+     * const accountWithIdOnly = await prisma.account.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AccountUpdateManyAndReturnArgs>(args: SelectSubset<T, AccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Account.
@@ -4763,6 +5012,40 @@ export namespace Prisma {
      * Filter which Accounts to update
      */
     where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Account updateManyAndReturn
+   */
+  export type AccountUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * The data used to update Accounts.
+     */
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
+    /**
+     * Filter which Accounts to update
+     */
+    where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4825,6 +5108,10 @@ export namespace Prisma {
      * Filter which Accounts to delete
      */
     where?: AccountWhereInput
+    /**
+     * Limit how many Accounts to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -5013,6 +5300,13 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
+  export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sessionToken?: boolean
+    userId?: boolean
+    expires?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
     id?: boolean
@@ -5026,6 +5320,9 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -5243,6 +5540,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends SessionUpdateManyArgs>(args: SelectSubset<T, SessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sessions and returns the data updated in the database.
+     * @param {SessionUpdateManyAndReturnArgs} args - Arguments to update many Sessions.
+     * @example
+     * // Update many Sessions
+     * const session = await prisma.session.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Sessions and only return the `id`
+     * const sessionWithIdOnly = await prisma.session.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SessionUpdateManyAndReturnArgs>(args: SelectSubset<T, SessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Session.
@@ -5730,6 +6057,40 @@ export namespace Prisma {
      * Filter which Sessions to update
      */
     where?: SessionWhereInput
+    /**
+     * Limit how many Sessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Session updateManyAndReturn
+   */
+  export type SessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Session
+     */
+    omit?: SessionOmit<ExtArgs> | null
+    /**
+     * The data used to update Sessions.
+     */
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyInput>
+    /**
+     * Filter which Sessions to update
+     */
+    where?: SessionWhereInput
+    /**
+     * Limit how many Sessions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SessionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5792,6 +6153,10 @@ export namespace Prisma {
      * Filter which Sessions to delete
      */
     where?: SessionWhereInput
+    /**
+     * Limit how many Sessions to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -5827,6 +6192,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     email: string | null
+    image: string | null
     emailVerified: Date | null
     approved: boolean | null
     resumeId: string | null
@@ -5836,6 +6202,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     email: string | null
+    image: string | null
     emailVerified: Date | null
     approved: boolean | null
     resumeId: string | null
@@ -5845,6 +6212,7 @@ export namespace Prisma {
     id: number
     name: number
     email: number
+    image: number
     emailVerified: number
     approved: number
     resumeId: number
@@ -5856,6 +6224,7 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    image?: true
     emailVerified?: true
     approved?: true
     resumeId?: true
@@ -5865,6 +6234,7 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    image?: true
     emailVerified?: true
     approved?: true
     resumeId?: true
@@ -5874,6 +6244,7 @@ export namespace Prisma {
     id?: true
     name?: true
     email?: true
+    image?: true
     emailVerified?: true
     approved?: true
     resumeId?: true
@@ -5956,6 +6327,7 @@ export namespace Prisma {
     id: string
     name: string | null
     email: string | null
+    image: string | null
     emailVerified: Date | null
     approved: boolean
     resumeId: string | null
@@ -5982,6 +6354,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    image?: boolean
     emailVerified?: boolean
     approved?: boolean
     resumeId?: boolean
@@ -5997,22 +6370,33 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    image?: boolean
     emailVerified?: boolean
     approved?: boolean
     resumeId?: boolean
   }, ExtArgs["result"]["user"]>
 
+  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    email?: boolean
+    image?: boolean
+    emailVerified?: boolean
+    approved?: boolean
+    resumeId?: boolean
+  }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
     email?: boolean
+    image?: boolean
     emailVerified?: boolean
     approved?: boolean
     resumeId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "approved" | "resumeId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "image" | "emailVerified" | "approved" | "resumeId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -6022,6 +6406,7 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -6036,6 +6421,7 @@ export namespace Prisma {
       id: string
       name: string | null
       email: string | null
+      image: string | null
       emailVerified: Date | null
       approved: boolean
       resumeId: string | null
@@ -6245,6 +6631,36 @@ export namespace Prisma {
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
+     * Update zero or more Users and returns the data updated in the database.
+     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
+     * @example
+     * // Update many Users
+     * const user = await prisma.user.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
      * Create or update one User.
      * @param {UserUpsertArgs} args - Arguments to update or create a User.
      * @example
@@ -6440,6 +6856,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly image: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly approved: FieldRef<"User", 'Boolean'>
     readonly resumeId: FieldRef<"User", 'String'>
@@ -6732,6 +7149,36 @@ export namespace Prisma {
      * Filter which Users to update
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * User updateManyAndReturn
+   */
+  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * The data used to update Users.
+     */
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    /**
+     * Filter which Users to update
+     */
+    where?: UserWhereInput
+    /**
+     * Limit how many Users to update.
+     */
+    limit?: number
   }
 
   /**
@@ -6794,6 +7241,10 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput
+    /**
+     * Limit how many Users to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -7130,6 +7581,18 @@ export namespace Prisma {
     job?: boolean | JobDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["application"]>
 
+  export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    jobId?: boolean
+    status?: boolean
+    appliedAt?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["application"]>
 
   export type ApplicationSelectScalar = {
     id?: boolean
@@ -7148,6 +7611,10 @@ export namespace Prisma {
     job?: boolean | JobDefaultArgs<ExtArgs>
   }
   export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    job?: boolean | JobDefaultArgs<ExtArgs>
+  }
+  export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     job?: boolean | JobDefaultArgs<ExtArgs>
   }
@@ -7371,6 +7838,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends ApplicationUpdateManyArgs>(args: SelectSubset<T, ApplicationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Applications and returns the data updated in the database.
+     * @param {ApplicationUpdateManyAndReturnArgs} args - Arguments to update many Applications.
+     * @example
+     * // Update many Applications
+     * const application = await prisma.application.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Applications and only return the `id`
+     * const applicationWithIdOnly = await prisma.application.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApplicationUpdateManyAndReturnArgs>(args: SelectSubset<T, ApplicationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Application.
@@ -7863,6 +8360,40 @@ export namespace Prisma {
      * Filter which Applications to update
      */
     where?: ApplicationWhereInput
+    /**
+     * Limit how many Applications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Application updateManyAndReturn
+   */
+  export type ApplicationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Application
+     */
+    select?: ApplicationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Application
+     */
+    omit?: ApplicationOmit<ExtArgs> | null
+    /**
+     * The data used to update Applications.
+     */
+    data: XOR<ApplicationUpdateManyMutationInput, ApplicationUncheckedUpdateManyInput>
+    /**
+     * Filter which Applications to update
+     */
+    where?: ApplicationWhereInput
+    /**
+     * Limit how many Applications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApplicationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -7925,6 +8456,10 @@ export namespace Prisma {
      * Filter which Applications to delete
      */
     where?: ApplicationWhereInput
+    /**
+     * Limit how many Applications to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -8283,6 +8818,27 @@ export namespace Prisma {
     expiresAt?: boolean
   }, ExtArgs["result"]["job"]>
 
+  export type JobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    externalId?: boolean
+    title?: boolean
+    company?: boolean
+    location?: boolean
+    description?: boolean
+    salary?: boolean
+    salaryMin?: boolean
+    salaryMax?: boolean
+    jobType?: boolean
+    remoteFlag?: boolean
+    applyUrl?: boolean
+    postedAt?: boolean
+    embedding?: boolean
+    normalizedTitle?: boolean
+    extractedSkills?: boolean
+    source?: boolean
+    scrapedAt?: boolean
+    expiresAt?: boolean
+  }, ExtArgs["result"]["job"]>
 
   export type JobSelectScalar = {
     id?: boolean
@@ -8313,6 +8869,7 @@ export namespace Prisma {
     _count?: boolean | JobCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type JobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type JobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $JobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Job"
@@ -8544,6 +9101,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends JobUpdateManyArgs>(args: SelectSubset<T, JobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Jobs and returns the data updated in the database.
+     * @param {JobUpdateManyAndReturnArgs} args - Arguments to update many Jobs.
+     * @example
+     * // Update many Jobs
+     * const job = await prisma.job.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Jobs and only return the `id`
+     * const jobWithIdOnly = await prisma.job.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobUpdateManyAndReturnArgs>(args: SelectSubset<T, JobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one Job.
@@ -9043,6 +9630,36 @@ export namespace Prisma {
      * Filter which Jobs to update
      */
     where?: JobWhereInput
+    /**
+     * Limit how many Jobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Job updateManyAndReturn
+   */
+  export type JobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Job
+     */
+    select?: JobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Job
+     */
+    omit?: JobOmit<ExtArgs> | null
+    /**
+     * The data used to update Jobs.
+     */
+    data: XOR<JobUpdateManyMutationInput, JobUncheckedUpdateManyInput>
+    /**
+     * Filter which Jobs to update
+     */
+    where?: JobWhereInput
+    /**
+     * Limit how many Jobs to update.
+     */
+    limit?: number
   }
 
   /**
@@ -9105,6 +9722,10 @@ export namespace Prisma {
      * Filter which Jobs to delete
      */
     where?: JobWhereInput
+    /**
+     * Limit how many Jobs to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -9405,6 +10026,18 @@ export namespace Prisma {
     resume?: boolean | ResumeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jobMatch"]>
 
+  export type JobMatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    jobId?: boolean
+    resumeId?: boolean
+    matchScore?: boolean
+    skillsMatched?: boolean
+    skillsGap?: boolean
+    star?: boolean
+    createdAt?: boolean
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobMatch"]>
 
   export type JobMatchSelectScalar = {
     id?: boolean
@@ -9423,6 +10056,10 @@ export namespace Prisma {
     resume?: boolean | ResumeDefaultArgs<ExtArgs>
   }
   export type JobMatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobDefaultArgs<ExtArgs>
+    resume?: boolean | ResumeDefaultArgs<ExtArgs>
+  }
+  export type JobMatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     job?: boolean | JobDefaultArgs<ExtArgs>
     resume?: boolean | ResumeDefaultArgs<ExtArgs>
   }
@@ -9646,6 +10283,36 @@ export namespace Prisma {
      * 
      */
     updateMany<T extends JobMatchUpdateManyArgs>(args: SelectSubset<T, JobMatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobMatches and returns the data updated in the database.
+     * @param {JobMatchUpdateManyAndReturnArgs} args - Arguments to update many JobMatches.
+     * @example
+     * // Update many JobMatches
+     * const jobMatch = await prisma.jobMatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more JobMatches and only return the `id`
+     * const jobMatchWithIdOnly = await prisma.jobMatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobMatchUpdateManyAndReturnArgs>(args: SelectSubset<T, JobMatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobMatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
      * Create or update one JobMatch.
@@ -10138,6 +10805,40 @@ export namespace Prisma {
      * Filter which JobMatches to update
      */
     where?: JobMatchWhereInput
+    /**
+     * Limit how many JobMatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobMatch updateManyAndReturn
+   */
+  export type JobMatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobMatch
+     */
+    select?: JobMatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobMatch
+     */
+    omit?: JobMatchOmit<ExtArgs> | null
+    /**
+     * The data used to update JobMatches.
+     */
+    data: XOR<JobMatchUpdateManyMutationInput, JobMatchUncheckedUpdateManyInput>
+    /**
+     * Filter which JobMatches to update
+     */
+    where?: JobMatchWhereInput
+    /**
+     * Limit how many JobMatches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobMatchIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -10200,6 +10901,10 @@ export namespace Prisma {
      * Filter which JobMatches to delete
      */
     where?: JobMatchWhereInput
+    /**
+     * Limit how many JobMatches to delete.
+     */
+    limit?: number
   }
 
   /**
@@ -10300,6 +11005,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     email: 'email',
+    image: 'image',
     emailVerified: 'emailVerified',
     approved: 'approved',
     resumeId: 'resumeId'
@@ -10468,7 +11174,7 @@ export namespace Prisma {
     skills?: StringNullableListFilter<"Resume">
     updatedAt?: DateTimeFilter<"Resume"> | Date | string
     createdAt?: DateTimeFilter<"Resume"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     jobMatches?: JobMatchListRelationFilter
   }
 
@@ -10497,7 +11203,7 @@ export namespace Prisma {
     skills?: StringNullableListFilter<"Resume">
     updatedAt?: DateTimeFilter<"Resume"> | Date | string
     createdAt?: DateTimeFilter<"Resume"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     jobMatches?: JobMatchListRelationFilter
   }, "id" | "userId">
 
@@ -10547,7 +11253,7 @@ export namespace Prisma {
     minMatchScore?: FloatNullableFilter<"UserPreferences"> | number | null
     requiredKeywords?: StringNullableListFilter<"UserPreferences">
     excludedKeywords?: StringNullableListFilter<"UserPreferences">
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type UserPreferencesOrderByWithRelationInput = {
@@ -10582,7 +11288,7 @@ export namespace Prisma {
     minMatchScore?: FloatNullableFilter<"UserPreferences"> | number | null
     requiredKeywords?: StringNullableListFilter<"UserPreferences">
     excludedKeywords?: StringNullableListFilter<"UserPreferences">
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
 
   export type UserPreferencesOrderByWithAggregationInput = {
@@ -10640,7 +11346,7 @@ export namespace Prisma {
     id_token?: StringNullableFilter<"Account"> | string | null
     session_state?: StringNullableFilter<"Account"> | string | null
     refresh_token_expires_in?: IntNullableFilter<"Account"> | number | null
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type AccountOrderByWithRelationInput = {
@@ -10678,7 +11384,7 @@ export namespace Prisma {
     id_token?: StringNullableFilter<"Account"> | string | null
     session_state?: StringNullableFilter<"Account"> | string | null
     refresh_token_expires_in?: IntNullableFilter<"Account"> | number | null
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "provider_providerAccountId">
 
   export type AccountOrderByWithAggregationInput = {
@@ -10729,7 +11435,7 @@ export namespace Prisma {
     sessionToken?: StringFilter<"Session"> | string
     userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
@@ -10748,7 +11454,7 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "sessionToken">
 
   export type SessionOrderByWithAggregationInput = {
@@ -10778,13 +11484,14 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     email?: StringNullableFilter<"User"> | string | null
+    image?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     approved?: BoolFilter<"User"> | boolean
     resumeId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    resume?: XOR<ResumeNullableRelationFilter, ResumeWhereInput> | null
-    preferences?: XOR<UserPreferencesNullableRelationFilter, UserPreferencesWhereInput> | null
+    resume?: XOR<ResumeNullableScalarRelationFilter, ResumeWhereInput> | null
+    preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
     applications?: ApplicationListRelationFilter
   }
 
@@ -10792,6 +11499,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     approved?: SortOrder
     resumeId?: SortOrderInput | SortOrder
@@ -10809,13 +11517,14 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
+    image?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     approved?: BoolFilter<"User"> | boolean
     resumeId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    resume?: XOR<ResumeNullableRelationFilter, ResumeWhereInput> | null
-    preferences?: XOR<UserPreferencesNullableRelationFilter, UserPreferencesWhereInput> | null
+    resume?: XOR<ResumeNullableScalarRelationFilter, ResumeWhereInput> | null
+    preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
     applications?: ApplicationListRelationFilter
   }, "id" | "email">
 
@@ -10823,6 +11532,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     approved?: SortOrder
     resumeId?: SortOrderInput | SortOrder
@@ -10838,6 +11548,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
+    image?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     approved?: BoolWithAggregatesFilter<"User"> | boolean
     resumeId?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -10855,8 +11566,8 @@ export namespace Prisma {
     notes?: StringNullableFilter<"Application"> | string | null
     createdAt?: DateTimeFilter<"Application"> | Date | string
     updatedAt?: DateTimeFilter<"Application"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
-    job?: XOR<JobRelationFilter, JobWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
   }
 
   export type ApplicationOrderByWithRelationInput = {
@@ -10884,8 +11595,8 @@ export namespace Prisma {
     notes?: StringNullableFilter<"Application"> | string | null
     createdAt?: DateTimeFilter<"Application"> | Date | string
     updatedAt?: DateTimeFilter<"Application"> | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput>
-    job?: XOR<JobRelationFilter, JobWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
   }, "id">
 
   export type ApplicationOrderByWithAggregationInput = {
@@ -11058,8 +11769,8 @@ export namespace Prisma {
     skillsGap?: StringNullableListFilter<"JobMatch">
     star?: BoolFilter<"JobMatch"> | boolean
     createdAt?: DateTimeFilter<"JobMatch"> | Date | string
-    job?: XOR<JobRelationFilter, JobWhereInput>
-    resume?: XOR<ResumeRelationFilter, ResumeWhereInput>
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
+    resume?: XOR<ResumeScalarRelationFilter, ResumeWhereInput>
   }
 
   export type JobMatchOrderByWithRelationInput = {
@@ -11088,8 +11799,8 @@ export namespace Prisma {
     skillsGap?: StringNullableListFilter<"JobMatch">
     star?: BoolFilter<"JobMatch"> | boolean
     createdAt?: DateTimeFilter<"JobMatch"> | Date | string
-    job?: XOR<JobRelationFilter, JobWhereInput>
-    resume?: XOR<ResumeRelationFilter, ResumeWhereInput>
+    job?: XOR<JobScalarRelationFilter, JobWhereInput>
+    resume?: XOR<ResumeScalarRelationFilter, ResumeWhereInput>
   }, "id" | "jobId_resumeId">
 
   export type JobMatchOrderByWithAggregationInput = {
@@ -11469,6 +12180,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -11483,6 +12195,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -11497,6 +12210,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11511,6 +12225,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11525,6 +12240,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -11534,6 +12250,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11543,6 +12260,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11902,7 +12620,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type UserRelationFilter = {
+  export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
@@ -12241,12 +12959,12 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
-  export type ResumeNullableRelationFilter = {
+  export type ResumeNullableScalarRelationFilter = {
     is?: ResumeWhereInput | null
     isNot?: ResumeWhereInput | null
   }
 
-  export type UserPreferencesNullableRelationFilter = {
+  export type UserPreferencesNullableScalarRelationFilter = {
     is?: UserPreferencesWhereInput | null
     isNot?: UserPreferencesWhereInput | null
   }
@@ -12273,6 +12991,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    image?: SortOrder
     emailVerified?: SortOrder
     approved?: SortOrder
     resumeId?: SortOrder
@@ -12282,6 +13001,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    image?: SortOrder
     emailVerified?: SortOrder
     approved?: SortOrder
     resumeId?: SortOrder
@@ -12291,6 +13011,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    image?: SortOrder
     emailVerified?: SortOrder
     approved?: SortOrder
     resumeId?: SortOrder
@@ -12310,7 +13031,7 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type JobRelationFilter = {
+  export type JobScalarRelationFilter = {
     is?: JobWhereInput
     isNot?: JobWhereInput
   }
@@ -12446,7 +13167,7 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type ResumeRelationFilter = {
+  export type ResumeScalarRelationFilter = {
     is?: ResumeWhereInput
     isNot?: ResumeWhereInput
   }
@@ -13327,6 +14048,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13340,6 +14062,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13399,6 +14122,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13412,6 +14136,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13455,6 +14180,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13468,6 +14194,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13497,6 +14224,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13510,6 +14238,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13523,6 +14252,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13536,6 +14266,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13565,6 +14296,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13578,6 +14310,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13591,6 +14324,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13604,6 +14338,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13633,6 +14368,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13646,6 +14382,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13974,6 +14711,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -13987,6 +14725,7 @@ export namespace Prisma {
     id?: string
     name?: string | null
     email?: string | null
+    image?: string | null
     emailVerified?: Date | string | null
     approved?: boolean
     resumeId?: string | null
@@ -14067,6 +14806,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14080,6 +14820,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     approved?: BoolFieldUpdateOperationsInput | boolean
     resumeId?: NullableStringFieldUpdateOperationsInput | string | null

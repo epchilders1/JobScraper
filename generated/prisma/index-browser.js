@@ -22,11 +22,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.19.2
- * Query Engine version: 393aa359c9ad4a4bb28630fb5613f9c281cde053
+ * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
   client: "6.19.2",
-  engine: "393aa359c9ad4a4bb28630fb5613f9c281cde053"
+  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -174,6 +174,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  image: 'image',
   emailVerified: 'emailVerified',
   approved: 'approved',
   resumeId: 'resumeId'
