@@ -95,7 +95,6 @@ def get_jobs():
     per_query   = max(1, math.ceil(20 / num_queries))
     full_time   = "full-time" in job_types
 
-    # --- Filter helpers ---
 
     def _title_keywords(title: str) -> set[str]:
         return {w.lower() for w in title.split() if len(w) >= 4}
@@ -118,7 +117,6 @@ def get_jobs():
 
     threshold = (min_match_score / 100.0) if min_match_score is not None else 0.40
 
-    # --- Fetch → filter → score loop ---
 
     async def _fetch_page(fetch_page: int) -> list[Job]:
         """Fetch one page from Adzuna, embed new jobs, persist to DB."""
@@ -186,9 +184,8 @@ def get_jobs():
 
         current_page += 1
 
-    # --- Format result ---
     if resume_embedding:
-        top = sorted(valid_scored, key=lambda x: x[1], reverse=True)[:TARGET]  # type: ignore[return-value]
+        top = sorted(valid_scored, key=lambda x: x[1], reverse=True)[:TARGET]
         result = [{**_job_to_dict(j), "matchScore": round(s * 100, 1)} for j, s in top]
     else:
         result = [_job_to_dict(j) for j, _ in valid_scored[:TARGET]]

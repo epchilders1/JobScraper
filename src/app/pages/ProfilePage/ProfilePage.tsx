@@ -86,7 +86,7 @@ export default function ProfilePage(props: ProfilePageProps) {
 
   return (
     <div className="pp">
-      <Toaster position="top-right" toastOptions={{ style: { background: '#1A1A24', color: '#F0F0FF', border: '1px solid #2A2A3A' } }} />
+      <Toaster position="top-left" toastOptions={{ style: { background: '#1A1A24', color: '#F0F0FF', border: '1px solid #2A2A3A' } }} />
 
       <form className="pp-main" onSubmit={handleSubmit}>
 
