@@ -78,7 +78,7 @@ export default function JobsPage() {
                     </div>
                 )}
 
-                {!starredOnly && hasMoreAdzuna && !isLoading && (
+                {!starredOnly && !isLoading && (
                     <div className="jobs-load-more">
                         <button
                             className="jobs-load-more-btn"

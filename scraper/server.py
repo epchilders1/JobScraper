@@ -149,7 +149,7 @@ def get_jobs():
         return adzuna_jobs
 
     TARGET      = 20
-    MAX_RETRIES = 5
+    MAX_RETRIES = 10
     valid_scored: list[tuple[Job, float | None]] = []
     seen_ids: set[str] = set()
     current_page = page
