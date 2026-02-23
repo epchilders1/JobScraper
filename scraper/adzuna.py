@@ -153,7 +153,7 @@ async def search_multiple(
         for location in where:
             print(f"  Searching: '{title}'...")
             jobs = search_jobs(
-                what_phrase=title,
+                what=title,
                 where=location,
                 country=country,
                 results_per_page=results_per_page,
