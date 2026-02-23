@@ -6,8 +6,6 @@ from dataclasses import dataclass, field
 from typing import Optional
 from dotenv import load_dotenv
 
-from embeddings import build_job_embedding_input, get_text_embedding
-
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 
 APP_ID = os.getenv("ADZUNA_APPLICATION_ID")
@@ -167,14 +165,6 @@ async def search_multiple(
             seen.update(j.id for j in new)
             all_jobs.extend(new)
             print(f"    {len(new)} new result(s) ({len(jobs) - len(new)} duplicate(s) skipped)")
-
-            if new:
-                embeddings = await asyncio.gather(*[
-                    get_text_embedding(build_job_embedding_input(j.__dict__))
-                    for j in new
-                ])
-                for job, emb in zip(new, embeddings):
-                    job.embedding = emb.tolist()
 
             if title != titles[-1]:
                 time.sleep(0.5)

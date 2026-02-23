@@ -1,10 +1,18 @@
 'use client';
 import './JobsPage.css';
+import AnimatedList from './AnimatedList';
 import { useState, useEffect } from 'react';
 import { api } from '~/trpc/react';
 import JobCard from '~/app/_components/JobCard/JobCard';
+import {toast,Toaster} from 'react-hot-toast';
 
-export default function JobsPage() {
+interface JobsPageProps {
+    user?: any;
+}
+
+export default function JobsPage(props: JobsPageProps) {
+    const { user } = props;
+    console.log(user);
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [starredOnly, setStarredOnly] = useState(false);
@@ -25,12 +33,14 @@ export default function JobsPage() {
     const { data: jobs = [], isLoading } = api.user.getJobMatches.useQuery({
         search: debouncedSearch,
         starredOnly,
+        minMatchScore: user?.preferences?.minMatchScore ?? undefined,
     });
 
     const loadMore = api.user.loadMoreJobs.useMutation({
         onSuccess: ({ count }) => {
             if (count === 0) {
                 setHasMoreAdzuna(false);
+                toast.error('No more jobs found from Adzuna. Try adjusting your preferences or search term?');
             } else {
                 setAdzunaPage((p) => p + 1);
                 void utils.user.getJobMatches.invalidate();
@@ -40,6 +50,7 @@ export default function JobsPage() {
 
     return (
         <div className="jobs-page">
+            <Toaster position="top-left" toastOptions={{ style: { background: '#1A1A24', color: '#F0F0FF', border: '1px solid #2A2A3A' } }} />
             <div className="jobs-content">
                 <div className="jobs-header">
                     <h1 className="jobs-title">Matched Jobs</h1>

@@ -22,7 +22,7 @@ export default function JobCard(props: JobCardProps) {
     const { job } = props;
     const [starred, setStarred] = useState(job.star);
     const [expanded, setExpanded] = useState(false);
-    console.log(job);
+    // console.log(job);
     const toggleStar = api.user.toggleStar.useMutation();
 
     const handleStar = () => {

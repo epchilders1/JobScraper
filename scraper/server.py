@@ -7,7 +7,7 @@ from flask import Flask, request, jsonify
 import pdfplumber
 
 from adzuna import Job, search_multiple
-from db import get_db_connection, close_db_connection, upsert_jobs, get_existing_jobs
+from db import get_db_connection, close_db_connection, upsert_jobs, get_existing_jobs, get_all_jobs
 from embeddings import get_text_embedding, extract_skills, build_resume_embedding_input, build_job_embedding_input
 from matcher import rank_jobs
 
@@ -118,8 +118,14 @@ def get_jobs():
     threshold = (min_match_score / 100.0) if min_match_score is not None else 0.40
 
 
-    async def _fetch_page(fetch_page: int) -> list[Job]:
-        """Fetch one page from Adzuna, embed new jobs, persist to DB."""
+    async def _fetch_page(fetch_page: int) -> tuple[int, list[Job]]:
+        """Fetch one page from Adzuna, filter, embed only new qualifying jobs.
+
+        Returns (raw_count, jobs) where:
+        - raw_count: total jobs Adzuna returned (0 means stop paginating)
+        - jobs: jobs that are new to the DB, pass title/keyword filters, and are
+                not duplicates within this request — embedded and ready to score
+        """
         adzuna_jobs = await search_multiple(
             titles=target_titles,
             where=locations,
@@ -128,14 +134,29 @@ def get_jobs():
             full_time=full_time,
             salary_min=min_salary,
         )
+        raw_count = len(adzuna_jobs)
+        if not adzuna_jobs:
+            return 0, []
+
+        # Within-request dedup: mark all adzuna IDs seen (even unfiltered ones)
+        # so later pages don't re-process them
+        fresh = [j for j in adzuna_jobs if j.id not in seen_ids]
+        seen_ids.update(j.id for j in adzuna_jobs)
+
+        if not fresh:
+            return raw_count, []
+
+        filtered = [j for j in fresh if title_is_relevant(j) and passes_filters(j)]
+        if not filtered:
+            return raw_count, []
+
         db = await get_db_connection()
         try:
-            external_ids = [j.id for j in adzuna_jobs]
+            external_ids = [j.id for j in filtered]
             existing = await get_existing_jobs(db, external_ids)
-            for j in adzuna_jobs:
-                if j.id in existing:
-                    j.embedding = existing[j.id]
-            new_jobs = [j for j in adzuna_jobs if j.id not in existing]
+
+            # Only embed and return jobs not already in DB (truly new across requests)
+            new_jobs = [j for j in filtered if j.id not in existing]
             if new_jobs:
                 embeddings = await asyncio.gather(*[
                     get_text_embedding(build_job_embedding_input(j.__dict__))
@@ -146,41 +167,60 @@ def get_jobs():
                 await upsert_jobs(db, new_jobs)
         finally:
             await close_db_connection(db)
-        return adzuna_jobs
+
+        return raw_count, new_jobs
 
     TARGET      = 20
     MAX_RETRIES = 10
     valid_scored: list[tuple[Job, float | None]] = []
     seen_ids: set[str] = set()
     current_page = page
+    adzuna_attempts = 0
+
+    async def _load_db_candidates() -> list[Job]:
+        db = await get_db_connection()
+        try:
+            return await get_all_jobs(db)
+        finally:
+            await close_db_connection(db)
+
+    db_all = asyncio.run(_load_db_candidates())
+    db_filtered = [j for j in db_all if title_is_relevant(j) and passes_filters(j)]
+    # Mark all DB ids seen so _fetch_page skips them during Phase 2
+    seen_ids.update(j.id for j in db_all)
+
+    if resume_embedding and db_filtered:
+        db_scored = [(j, s) for j, s in rank_jobs(db_filtered, resume_embedding) if s >= threshold]
+        valid_scored.extend(db_scored)
+    elif not resume_embedding:
+        valid_scored.extend((j, None) for j in db_filtered)
+
+    app.logger.info(
+        "get_jobs: DB phase — %d stored, %d passed filters, %d scored",
+        len(db_all), len(db_filtered), len(valid_scored),
+    )
 
     for attempt in range(MAX_RETRIES):
-        batch = asyncio.run(_fetch_page(current_page))
-
-        # Deduplicate across pages
-        fresh = [j for j in batch if j.id not in seen_ids]
-        seen_ids.update(j.id for j in fresh)
-
-        if not fresh:
-            app.logger.info("get_jobs: Adzuna returned no new results on page %d, stopping.", current_page)
-            break
-
-        # Apply title + keyword filters
-        filtered = [j for j in fresh if title_is_relevant(j) and passes_filters(j)]
-        app.logger.info(
-            "get_jobs: attempt %d (page %d) — %d fetched, %d passed filters, need %d more",
-            attempt + 1, current_page, len(fresh), len(filtered), max(0, TARGET - len(valid_scored)),
-        )
-
-        # Score and threshold
-        if resume_embedding and filtered:
-            scored = [(j, s) for j, s in rank_jobs(filtered, resume_embedding) if s >= threshold]
-            valid_scored.extend(scored)
-        elif not resume_embedding:
-            valid_scored.extend((j, None) for j in filtered)
-
         if len(valid_scored) >= TARGET:
             break
+
+        adzuna_attempts += 1
+        raw_count, batch = asyncio.run(_fetch_page(current_page))
+
+        if raw_count == 0:
+            app.logger.info("get_jobs: Adzuna returned no results on page %d, stopping.", current_page)
+            break
+
+        app.logger.info(
+            "get_jobs: Adzuna attempt %d (page %d) — %d fetched, %d new after dedup+filters, need %d more",
+            adzuna_attempts, current_page, raw_count, len(batch), max(0, TARGET - len(valid_scored)),
+        )
+
+        if resume_embedding and batch:
+            scored = [(j, s) for j, s in rank_jobs(batch, resume_embedding) if s >= threshold]
+            valid_scored.extend(scored)
+        elif not resume_embedding:
+            valid_scored.extend((j, None) for j in batch)
 
         current_page += 1
 
@@ -190,7 +230,10 @@ def get_jobs():
     else:
         result = [_job_to_dict(j) for j, _ in valid_scored[:TARGET]]
 
-    app.logger.info("get_jobs: returning %d jobs after %d attempt(s).", len(result), attempt + 1)
+    app.logger.info(
+        "get_jobs: returning %d jobs (%d from DB, %d Adzuna page(s) fetched).",
+        len(result), len(db_filtered), adzuna_attempts,
+    )
     return jsonify(result)
 
 

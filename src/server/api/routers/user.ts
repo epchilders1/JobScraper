@@ -14,6 +14,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         search: z.string().optional(),
         starredOnly: z.boolean().optional(),
+        minMatchScore: z.number().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -27,7 +28,7 @@ export const userRouter = createTRPCRouter({
       const items = await prisma.jobMatch.findMany({
         where: {
           resumeId: resume.id,
-          matchScore: { gte: 0.35 },
+          matchScore: { gte: input.minMatchScore ?? 0 },
           ...(input.starredOnly ? { star: true } : {}),
           job: {
             OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
@@ -207,7 +208,7 @@ export const userRouter = createTRPCRouter({
       // Clear all job matches so they get re-scored against updated preferences
       const resume = await prisma.resume.findUnique({ where: { userId } });
       if (resume) {
-        await prisma.jobMatch.deleteMany({ where: { resumeId: resume.id } });
+        await prisma.jobMatch.deleteMany({ where: { resumeId: resume.id, star: false } });
       }
 
       await prisma.user.update({

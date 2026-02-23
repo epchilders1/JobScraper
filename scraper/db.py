@@ -17,6 +17,31 @@ async def close_db_connection(db: Prisma) -> None:
         await db.disconnect()
 
 
+async def get_all_jobs(db: Prisma) -> list[Job]:
+    """Fetch all non-expired jobs from the DB as Job instances, newest first."""
+    rows = await db.job.find_many(
+        where={"expiresAt": {"gt": datetime.now(timezone.utc)}},
+        order={"postedAt": "desc"},
+        take=500,
+    )
+    jobs = []
+    for row in rows:
+        jobs.append(Job(
+            id=row.externalId,
+            title=row.title,
+            company=row.company,
+            location=row.location,
+            description=row.description or "",
+            url=row.applyUrl or "",
+            salary_min=float(row.salaryMin) if row.salaryMin is not None else None,
+            salary_max=float(row.salaryMax) if row.salaryMax is not None else None,
+            contract_time=row.jobType,
+            created=row.postedAt.isoformat() if row.postedAt else None,
+            embedding=row.embedding or [],
+        ))
+    return jobs
+
+
 async def get_existing_jobs(db: Prisma, external_ids: list[str]) -> dict[str, list[float]]:
     """Returns {externalId: embedding} for jobs already in the database."""
     rows = await db.job.find_many(where={"externalId": {"in": external_ids}})
