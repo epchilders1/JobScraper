@@ -85,6 +85,7 @@ def get_jobs():
     excluded_keywords = [k.lower() for k in (data.get("excludedKeywords") or [])]
     job_types        = data.get("jobTypes") or []
     page             = int(data.get("page", 1))
+    exclude_ids      = set(data.get("excludeIds") or [])
 
     if not target_titles:
         app.logger.error("get_jobs: targetTitles is empty. Full payload: %s", data)
@@ -173,7 +174,7 @@ def get_jobs():
     TARGET      = 20
     MAX_RETRIES = 10
     valid_scored: list[tuple[Job, float | None]] = []
-    seen_ids: set[str] = set()
+    seen_ids: set[str] = set(exclude_ids)  # pre-seed with already-shown job IDs
     current_page = page
     adzuna_attempts = 0
 
@@ -185,7 +186,7 @@ def get_jobs():
             await close_db_connection(db)
 
     db_all = asyncio.run(_load_db_candidates())
-    db_filtered = [j for j in db_all if title_is_relevant(j) and passes_filters(j)]
+    db_filtered = [j for j in db_all if j.id not in seen_ids and title_is_relevant(j) and passes_filters(j)]
     # Mark all DB ids seen so _fetch_page skips them during Phase 2
     seen_ids.update(j.id for j in db_all)
 

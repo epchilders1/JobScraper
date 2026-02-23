@@ -28,7 +28,7 @@ export const userRouter = createTRPCRouter({
       const items = await prisma.jobMatch.findMany({
         where: {
           resumeId: resume.id,
-          matchScore: { gte: input.minMatchScore ?? 0 },
+          matchScore: { gte: (input.minMatchScore ?? 0) / 100 },
           ...(input.starredOnly ? { star: true } : {}),
           job: {
             OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
@@ -70,6 +70,16 @@ export const userRouter = createTRPCRouter({
       if (!user?.preferences) throw new Error("No preferences found");
 
       const prefs = user.preferences;
+      const resume = user.resume;
+      if (!resume) return { count: 0 };
+
+      // Collect external IDs the user already has so Flask skips them
+      const existingMatches = await prisma.jobMatch.findMany({
+        where: { resumeId: resume.id },
+        include: { job: { select: { externalId: true } } },
+      });
+      const excludeIds = existingMatches.map((m) => m.job.externalId);
+
       const requestBody = {
         targetTitles: prefs.targetTitles,
         workStyle: prefs.workStyle,
@@ -82,6 +92,7 @@ export const userRouter = createTRPCRouter({
         excludedKeywords: prefs.excludedKeywords,
         resumeEmbedding: user.resume?.embedding,
         page: input.page,
+        excludeIds,
       };
 
       const res = await fetch(`${env.FLASK_API_URL}/get_jobs`, {
@@ -91,9 +102,6 @@ export const userRouter = createTRPCRouter({
       });
       const jobs = (await res.json()) as { id: string; matchScore: number }[];
       if (!Array.isArray(jobs) || jobs.length === 0) return { count: 0 };
-
-      const resume = await prisma.resume.findUnique({ where: { userId } });
-      if (!resume) return { count: 0 };
 
       let count = 0;
       for (const item of jobs) {
